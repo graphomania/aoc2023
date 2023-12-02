@@ -1,4 +1,7 @@
-const DIGITS: [&str; 20] = [
+// https://adventofcode.com/2023/day/1
+
+
+pub const DIGITS: [&str; 20] = [
     "zero", "0",
     "one", "1",
     "two", "2",
@@ -11,7 +14,7 @@ const DIGITS: [&str; 20] = [
     "nine", "9"
 ];
 
-fn digitize(what: &str) -> Option<i64> {
+pub fn digitize(what: &str) -> Option<i64> {
     for (i, digit) in DIGITS.iter().enumerate() {
         if what.starts_with(digit) {
             return Some((i / 2) as i64);
@@ -20,7 +23,7 @@ fn digitize(what: &str) -> Option<i64> {
     return None;
 }
 
-fn digitize_all(what: &str) -> Vec<i64> {
+pub fn digitize_all(what: &str) -> Vec<i64> {
     let mut ret = Vec::new();
     for i in 0..what.len() {
         if let Some(digit) = digitize(&what[i..(what.len())]) {
@@ -30,17 +33,22 @@ fn digitize_all(what: &str) -> Vec<i64> {
     ret
 }
 
-// https://adventofcode.com/2023/day/1
-fn trebuchet(s: &str) -> i64 {
+pub fn trebuchet(s: &str) -> i64 {
     let digits = digitize_all(s);
     digits.first().unwrap() * 10 + digits.last().unwrap()
 }
 
-fn main() {
-    let ret: i64 = std::fs::read_to_string("input.txt").unwrap()
-        .lines()
-        .map(|line| trebuchet(line))
-        .sum();
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-    println!("{}", ret);
+    #[test]
+    fn test_answer() {
+        let ret: i64 = std::fs::read_to_string("src/day01/input.txt").unwrap()
+            .lines()
+            .map(|line| trebuchet(line))
+            .sum();
+
+        assert_eq!(ret, 54985);
+    }
 }

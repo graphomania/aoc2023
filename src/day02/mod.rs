@@ -1,9 +1,9 @@
 use std::fmt;
 use std::num::ParseIntError;
-use crate::Cube::{Blue, Green, Red};
+use crate::day02::Cube::{Blue, Green, Red};
 
 #[derive(Debug, Clone)]
-struct ParseError {
+pub struct ParseError {
     what: String,
 }
 
@@ -27,7 +27,7 @@ impl fmt::Display for ParseError {
     }
 }
 
-enum Cube {
+pub enum Cube {
     Red(i64),
     Green(i64),
     Blue(i64),
@@ -47,9 +47,9 @@ impl Cube {
 }
 
 // Red, Green, Blue
-type GameLimits = (i64, i64, i64);
+pub type GameLimits = (i64, i64, i64);
 
-struct Game(Vec<Cube>);
+pub struct Game(Vec<Cube>);
 
 impl Game {
     pub fn from_str(s: &str) -> Result<Game, ParseError> {
@@ -98,7 +98,7 @@ impl Game {
     }
 }
 
-struct Series {
+pub struct Series {
     pub id: i64,
     pub games: Vec<Game>,
 }
@@ -120,7 +120,7 @@ impl Series {
     }
 }
 
-fn sum_all_valid_games_ids(filename: &str, limits: &GameLimits) -> i64 {
+pub fn sum_all_valid_games_ids(filename: &str, limits: &GameLimits) -> i64 {
     std::fs::read_to_string(filename).unwrap()
         .lines()
         .map(|line| Series::from_str(line).unwrap())
@@ -129,7 +129,7 @@ fn sum_all_valid_games_ids(filename: &str, limits: &GameLimits) -> i64 {
         .sum()
 }
 
-fn sum_powers_of_the_tightest_limits(filename: &str) -> i64 {
+pub fn sum_powers_of_the_tightest_limits(filename: &str) -> i64 {
     std::fs::read_to_string(filename).unwrap()
         .lines()
         .map(|line|
@@ -146,9 +146,17 @@ fn sum_powers_of_the_tightest_limits(filename: &str) -> i64 {
         .sum()
 }
 
+
 // Game 1: 1 red, 5 blue, 10 green; 5 green, 6 blue, 12 red; 4 red, 10 blue, 4 green
-fn main() {
-    let limits = (12, 13, 14);
-    println!("1: {:?}", sum_all_valid_games_ids("input.txt", &limits));
-    println!("2: {:?}", sum_powers_of_the_tightest_limits("input.txt"));
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_answer() {
+        let limits = (12, 13, 14);
+        assert_eq!(sum_all_valid_games_ids("src/day02/input.txt", &limits), 2720);
+        assert_eq!(sum_powers_of_the_tightest_limits("src/day02/input.txt"), 71535);
+    }
 }
+
