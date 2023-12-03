@@ -1,4 +1,3 @@
 pub mod day01;
 pub mod day02;
-
-pub mod aoc2023 {}
+mod day03;

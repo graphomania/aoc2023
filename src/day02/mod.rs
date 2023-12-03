@@ -115,7 +115,9 @@ impl Series {
 
         Ok(Series {
             id: s[("Game ".len())..(colon.unwrap())].parse::<i64>()?,
-            games: s[(colon.unwrap() + 1)..(s.len())].split(";").map(|game_str| Game::from_str(game_str).unwrap()).collect(),
+            games: s[(colon.unwrap() + 1)..(s.len())]
+                .split(";").map(|game_str| Game::from_str(game_str).unwrap())
+                .collect(),
         })
     }
 }
