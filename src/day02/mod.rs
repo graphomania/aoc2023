@@ -125,7 +125,7 @@ impl Series {
 pub fn sum_all_valid_games_ids(filename: &str, limits: &GameLimits) -> i64 {
     std::fs::read_to_string(filename).unwrap()
         .lines()
-        .map(|line| Series::from_str(line).unwrap())
+        .map(|line| Series::from_str(line).expect("unexpected series"))
         .filter(|series| series.games.iter().all(|game| game.in_limits(&limits)))
         .map(|x| x.id)
         .sum()
